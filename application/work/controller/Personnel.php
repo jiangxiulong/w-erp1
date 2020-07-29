@@ -16,6 +16,7 @@
 namespace app\work\controller;
 
 use library\Controller;
+use think\Db;
 
 /**
  * 员工管理
@@ -43,8 +44,24 @@ class Personnel extends Controller
     public function index()
     {
         $this->title = '员工列表';
-        $query = $this->_query($this->table)->like('name');
+        $query = $this->_query($this->table)->like('name')->equal('d_id');
         $query->where(['is_deleted' => '0'])->order('id desc')->page();
+    }
+
+    /**
+     * 数据列表处理
+     * @param array $data
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     */
+    protected function _index_page_filter(&$data)
+    {
+        $this->department = Db::name('Department')->where(['is_deleted' => '0'])->order('id desc')->select();
+        foreach ($data as &$vo) {
+            list($vo['team']) = [[]];
+            foreach ($this->department as $team) if ($team['id'] === $vo['d_id']) $vo['team'] = $team;
+        }
     }
 
     /**
@@ -75,6 +92,22 @@ class Personnel extends Controller
     {
         $this->title = '编辑员工';
         $this->_form($this->table, 'form');
+    }
+
+    /**
+     * 表单数据处理
+     * @param array $data
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
+    protected function _form_filter(&$data)
+    {
+        if ($this->request->isGet()) {
+            $this->department = Db::name('Department')->where(['is_deleted' => '0'])->order('id desc')->select();
+        }
     }
 
     /**
