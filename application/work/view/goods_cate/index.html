@@ -25,6 +25,7 @@
             <th class='list-table-sort-td'>
                 <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
             </th>
+            <th class='text-left nowrap'>分类ID</th>
             <th class='text-left nowrap'>分类名称</th>
             <th class='text-left nowrap'>添加时间</th>
             <th class='text-left nowrap'></th>
@@ -39,6 +40,7 @@
             </td>
             <td class='list-table-sort-td'>
             </td>
+            <td class='text-left nowrap'>{$vo.id|default=''}</td>
             <td class='text-left nowrap'>{$vo.name|default=''}</td>
             <td class='text-left nowrap'>
                 {$vo.create_at|format_datetime}

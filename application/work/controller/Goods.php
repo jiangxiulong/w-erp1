@@ -121,4 +121,55 @@ class Goods extends Controller
         $this->_delete($this->table);
     }
 
+    /**
+     * 导入物品
+     * @auth true
+     * @menu true
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
+    public function import()
+    {
+        $file = request()->file('file');
+        $info = $file->move('../public/upload/tmp');
+        $fiele_name = explode('.', $info->getInfo()['name'])[0];
+        if ($info) {
+            // 成功上传后 获取上传信息
+            $path = '../public/upload/tmp/' . $info->getSaveName();
+
+            $type = 'Excel2007';//设置为Excel5代表支持2003或以下版本，Excel2007代表2007版
+            $xlsReader = \PHPExcel_IOFactory::createReader($type);
+            $xlsReader->setReadDataOnly(true);
+            $xlsReader->setLoadSheetsOnly(true);
+            $Sheets = $xlsReader->load($path);
+            // 数据
+            $data = $Sheets->getSheet(0)->toArray();
+            array_shift($data);
+            foreach ($data as $value) {
+                $new_data[] = [
+                    'name' => $value[1],
+                    'code' => $value[2],
+                    'c_id' => $value[3],
+                ];
+            }
+            if (isset($new_data) && !empty($new_data)) {
+                $res = Db::name('Goods')->insertAll($new_data);
+            }else{
+                $res = false;
+            }
+            if ($res) {
+                return json(['code' => 1, 'msg' => '导入成功']);
+            }else{
+                return json(['code' => 0, 'msg' => '导入失败']);
+            }
+        } else {
+            // 上传失败获取错误信息
+            $data = ['code' => 0, 'msg' => $file->getError()];
+            return json($data);
+        }
+    }
+
 }

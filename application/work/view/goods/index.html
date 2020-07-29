@@ -10,6 +10,15 @@
 <button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些物品吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除物品</button>
 {/if}
 
+{if auth("import")}
+<button type="button" class="layui-btn layui-btn-sm layui-btn-primary" id="import">
+    <i class="layui-icon">&#xe67c;</i>导入
+</button>
+<button type="button" class="layui-btn layui-btn-sm layui-btn-primary">
+    <a href='__ROOT__/static/theme/import_goods.xlsx' target="_blank" download="物品导入模板">下载导入模板</a>
+</button>
+{/if}
+
 {/block}
 
 {block name="content"}
@@ -67,4 +76,35 @@
 
 </div>
 
+{/block}
+
+{block name='script'}
+<script>
+    layui.use('upload', function(){
+        var upload = layui.upload;
+        //执行实例
+        var uploadInst = upload.render({
+            elem: '#import' //绑定元素
+            ,url: '/work/goods/import.html' //上传接口
+            ,accept: 'file'
+            ,done: function(res){
+                //上传完毕回调
+                if (res.code) {
+                    layer.msg(res.msg, function () {
+                        $.form.reload();
+                    });
+                }else{
+                    layer.open({
+                        title: '错误提示'
+                        ,content: res.msg
+                    });
+                }
+            }
+            ,error: function(){
+                //请求异常回调
+                layer.msg('导入异常，请联系系统管理员');
+            }
+        });
+    });
+</script>
 {/block}
