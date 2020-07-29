@@ -3,18 +3,18 @@
 {block name="button"}
 
 {if auth("add")}
-<button data-modal='{:url("add")}' data-title="添加部门" class='layui-btn layui-btn-sm layui-btn-primary'>添加部门</button>
+<button data-modal='{:url("add")}' data-title="添加员工" class='layui-btn layui-btn-sm layui-btn-primary'>添加员工</button>
 {/if}
 
 {if auth("remove")}
-<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些部门吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除部门</button>
+<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些员工吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除员工</button>
 {/if}
 
 {/block}
 
 {block name="content"}
 <div class="think-box-shadow">
-    {include file='department/index_search'}
+    {include file='personnel/index_search'}
     <table class="layui-table" lay-skin="line">
         {notempty name='list'}
         <thead>
@@ -25,7 +25,7 @@
             <th class='list-table-sort-td'>
                 <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
             </th>
-            <th class='text-left nowrap'>部门名称</th>
+            <th class='text-left nowrap'>员工名称</th>
             <th class='text-left nowrap'>添加时间</th>
             <th class='text-left nowrap'></th>
         </tr>

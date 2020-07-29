@@ -18,20 +18,20 @@ namespace app\work\controller;
 use library\Controller;
 
 /**
- * 部门管理
- * Class Department
+ * 员工管理
+ * Class Personnel
  * @package app\work\controller
  */
-class Department extends Controller
+class Personnel extends Controller
 {
     /**
      * 绑定数据表
      * @var string
      */
-    protected $table = 'Department';
+        protected $table = 'Personnel';
 
     /**
-     * 部门管理
+     * 员工管理
      * @auth true
      * @menu true
      * @throws \think\Exception
@@ -42,13 +42,13 @@ class Department extends Controller
      */
     public function index()
     {
-        $this->title = '部门列表';
+        $this->title = '员工列表';
         $query = $this->_query($this->table)->like('name');
         $query->where(['is_deleted' => '0'])->order('id desc')->page();
     }
 
     /**
-     * 添加部门
+     * 添加员工
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -58,12 +58,12 @@ class Department extends Controller
      */
     public function add()
     {
-        $this->title = '添加部门';
+        $this->title = '添加员工';
         $this->_form($this->table, 'form');
     }
 
     /**
-     * 编辑部门
+     * 编辑员工
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -73,12 +73,12 @@ class Department extends Controller
      */
     public function edit()
     {
-        $this->title = '编辑部门';
+        $this->title = '编辑员工';
         $this->_form($this->table, 'form');
     }
 
     /**
-     * 删除部门
+     * 删除员工
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException
