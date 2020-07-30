@@ -35,6 +35,10 @@ class ComposerStaticInit0ac7cd5b2cda0031cee9c92b2dc93c50
         array (
             'Qiniu\\' => 6,
         ),
+        'P' => 
+        array (
+            'Picqer\\Barcode\\' => 15,
+        ),
         'O' => 
         array (
             'OSS\\' => 4,
@@ -83,6 +87,10 @@ class ComposerStaticInit0ac7cd5b2cda0031cee9c92b2dc93c50
         'Qiniu\\' => 
         array (
             0 => __DIR__ . '/..' . '/qiniu/php-sdk/src/Qiniu',
+        ),
+        'Picqer\\Barcode\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/picqer/php-barcode-generator/src',
         ),
         'OSS\\' => 
         array (

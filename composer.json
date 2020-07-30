@@ -21,7 +21,8 @@
     "zoujingli/ip2region": "^1.0",
     "zoujingli/think-library": "5.1.*-dev",
     "zoujingli/weopen-developer": "dev-master",
-    "phpoffice/phpexcel": "^1.8"
+    "phpoffice/phpexcel": "^1.8",
+    "picqer/php-barcode-generator": "^0.3.0"
   },
   "repositories": {
     "packagist": {

@@ -14,6 +14,7 @@ return array(
     'WeChat\\' => array($vendorDir . '/zoujingli/wechat-developer/WeChat', $vendorDir . '/zoujingli/weopen-developer/WeChat'),
     'Symfony\\Component\\OptionsResolver\\' => array($vendorDir . '/symfony/options-resolver'),
     'Qiniu\\' => array($vendorDir . '/qiniu/php-sdk/src/Qiniu'),
+    'Picqer\\Barcode\\' => array($vendorDir . '/picqer/php-barcode-generator/src'),
     'OSS\\' => array($vendorDir . '/aliyuncs/oss-sdk-php/src/OSS'),
     'Endroid\\QrCode\\' => array($vendorDir . '/endroid/qr-code/src'),
     'AliPay\\' => array($vendorDir . '/zoujingli/wechat-developer/AliPay'),

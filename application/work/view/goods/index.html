@@ -37,6 +37,7 @@
             <th class='text-left nowrap'>物品名称</th>
             <th class='text-left nowrap'>物品编码</th>
             <th class='text-left nowrap'>物品分类</th>
+            <th class='text-left nowrap'>物品条形码</th>
             <th class='text-left nowrap'>添加时间</th>
             <th class='text-left nowrap'></th>
         </tr>
@@ -53,6 +54,10 @@
             <td class='text-left nowrap'>{$vo.name|default=''}</td>
             <td class='text-left nowrap'>{$vo.code|default=''}</td>
             <td class='text-left nowrap'>{$vo.cate.name|default=''}</td>
+            <td class='text-left nowrap'>
+                <img src="{$vo.code_png}"/>
+                <a href='{$vo.code_png}' target="_blank" download="{$vo.name}">下载</a>
+            </td>
             <td class='text-left nowrap'>
                 {$vo.create_at|format_datetime}
             </td>

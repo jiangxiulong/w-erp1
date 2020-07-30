@@ -57,10 +57,43 @@ class Goods extends Controller
      */
     protected function _index_page_filter(&$data)
     {
+        $generator = new \Picqer\Barcode\BarcodeGeneratorPNG();
         $this->goodscate = Db::name('GoodsCate')->where(['is_deleted' => '0'])->order('id desc')->select();
         foreach ($data as &$vo) {
             list($vo['team']) = [[]];
             foreach ($this->goodscate as $cate) if ($cate['id'] === $vo['c_id']) $vo['cate'] = $cate;
+            //设置图片名称
+            $imageName = 'goodsbarcode'."_".$vo['id'].'.png';
+            $code_png_url = '/upload/barcode/'.$imageName;
+            if (!file_exists($code_png_url)) {
+                $barcode = $generator->getBarcode($vo['code'], $generator::TYPE_CODE_128);
+                $this->base64topng($imageName,$barcode);
+            }
+            $vo['code_png'] = $code_png_url;
+        }
+    }
+
+    /**
+     * base64保存为图片
+     */
+    public function base64topng($imageName,$image){
+        //设置图片保存路径
+        $path = "../public/upload/barcode";
+
+        //判断目录是否存在 不存在就创建
+        if (!is_dir($path)){
+            mkdir($path,0777,true);
+        }
+
+        //图片路径
+        $imageSrc= $path."/". $imageName;
+
+        //生成文件夹和图片
+        $r = file_put_contents($imageSrc, $image);
+        if (!$r) {
+            return false;
+        }else {
+            return true;
         }
     }
 
