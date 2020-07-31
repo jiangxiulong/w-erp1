@@ -1,0 +1,48 @@
+<fieldset>
+
+    <legend>条件搜索</legend>
+
+    <form class="layui-form layui-form-pane form-search" action="{:request()->url()}" onsubmit="return false" method="get" autocomplete="off">
+
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">物品名称</label>
+            <div class="layui-input-inline">
+                <input name="g_name" value="{$Think.get.g_name|default=''}" placeholder="请输入物品名称" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">物品编码</label>
+            <div class="layui-input-inline">
+                <input name="g_code" value="{$Think.get.g_code|default=''}" placeholder="请输入物品编码" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">租借日期</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="start_time" value="{$Think.get.start_time|default=''}" placeholder="请选择租借日期" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item layui-inline">
+            <label class="layui-form-label">归还日期</label>
+            <div class="layui-input-inline">
+                <input data-date-range name="end_time" value="{$Think.get.end_time|default=''}" placeholder="请选择归还日期" class="layui-input">
+            </div>
+        </div>
+
+        <div class="layui-form-item layui-inline">
+            <button class="layui-btn layui-btn-primary"><i class="layui-icon">&#xe615;</i> 搜 索</button>
+            <a class="layui-btn layui-btn-sm layui-btn daochu" href="javascript:;">导出</a>
+        </div>
+    </form>
+    <script>
+        window.form.render();
+        jQuery('.daochu').click(function () {
+            var newUrl = "{:url('export')}";    //设置新提交地址
+            var param = $(this).parents('form').serialize();
+            var url = newUrl + '?' + param;
+            window.location.href = url;
+        })
+    </script>
+</fieldset>
+
+<script>form.render()</script>

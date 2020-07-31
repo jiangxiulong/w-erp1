@@ -1,0 +1,43 @@
+<form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
+    <div class="layui-card-body">
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">请选择员工</label>
+            <div class="layui-input-block">
+                <select class="layui-select" required name="d_id" lay-search>
+                    {foreach $department as $team}
+                    {if isset($vo.d_id) and $vo.d_id eq $team.id}
+                    <option selected value="{$team.id}">{$team.name|default=''}</option>
+                    {else}
+                    <option value="{$team.id}">{$team.name|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">请选择员工</label>
+            <div class="layui-input-block">
+                <select class="layui-select" required name="d_id" lay-search>
+                    {foreach $department as $team}
+                    {if isset($vo.d_id) and $vo.d_id eq $team.id}
+                    <option selected value="{$team.id}">{$team.name|default=''}</option>
+                    {else}
+                    <option value="{$team.id}">{$team.name|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="hr-line-dashed"></div>
+    {notempty name='vo.id'}<input type='hidden' value='{$vo.id}' name='id'>{/notempty}
+
+    <div class="layui-form-item text-center">
+        <button class="layui-btn" type='submit'>保存数据</button>
+        <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
+    </div>
+
+    <script>window.form.render();</script>
+
+</form>
