@@ -33,7 +33,7 @@ class BorrowRepay extends Controller
         protected $table = 'BorrowRepay';
 
     /**
-     * 租借管理
+     * 租借列表
      * @auth true
      * @menu true
      * @throws \think\Exception
@@ -76,7 +76,7 @@ class BorrowRepay extends Controller
     }
 
     /**
-     * 添加租借
+     * 物品租借详情
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -84,10 +84,63 @@ class BorrowRepay extends Controller
      * @throws \think\exception\DbException
      * @throws \think\exception\PDOException
      */
-    public function add()
+    public function detail()
     {
-        $this->title = '添加租借';
-        $this->_form($this->table, 'form');
+        if ($this->request->isPost()) {
+            $code = $this->request->post('code');
+            $goods_info = Db::name('Goods')->where('code', trim($code))->find();
+            if (!empty($goods_info)) {
+                $goods_info['c_name'] = Db::name('GoodsCate')->where('id', $goods_info['c_id'])->value('name');
+                if ($goods_info['status'] == 2) {
+                    $borrow_repay = Db::name($this->table)->where(['g_id' => $goods_info['id']])->order('id desc')->find();
+                    $borrow_repay['per_name'] = Db::name('Personnel')->where('id', $borrow_repay['per_id'])->value('name');
+                    $goods_info['borrow_repay'] = $borrow_repay;
+                }else{
+                    $goods_info['borrow_repay'] = [];
+                    $personnel = Db::name('Personnel')->where('is_deleted', 0)->select();
+                    $goods_info['personnel'] = $personnel;
+                }
+                $this->fetch('detail', ['vo' => $goods_info]);
+            }else{
+                $this->error('暂无此编码物品信息，请检查后重试！');
+            }
+        }else{
+            $this->fetch();
+        }
+    }
+
+    /**
+     * 租借
+     * @auth true
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
+    public function lease()
+    {
+        $data = $this->request->post();
+        $res = Db::table('borrow_repay')->insert($data);
+        $res1 = Db::table('goods')->where('id', $data['g_id'])->update(['status' => 2, 'use_num' => Db::raw('use_num+1')]);
+        $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/index'));
+    }
+
+    /**
+     * 归还
+     * @auth true
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
+     */
+    public function lease_back()
+    {
+        $data = $this->request->post();
+        $res = Db::table('borrow_repay')->where('id', $data['id'])->update($data);
+        $res1 = Db::table('goods')->where('id', $data['g_id'])->update(['status' => 1]);
+        $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/index'));
     }
 
     /**
@@ -117,7 +170,8 @@ class BorrowRepay extends Controller
     protected function _form_filter(&$data)
     {
         if ($this->request->isGet()) {
-            $this->department = Db::name('Department')->where(['is_deleted' => '0'])->order('id desc')->select();
+            $this->personnel = Db::name('Personnel')->where('is_deleted', 0)->order('id desc')->select();
+            $this->goods = Db::name('Goods')->where('is_deleted', 0)->order('id desc')->select();
         }
     }
 

@@ -32,7 +32,7 @@ class Personnel extends Controller
         protected $table = 'Personnel';
 
     /**
-     * 员工管理
+     * 员工列表
      * @auth true
      * @menu true
      * @throws \think\Exception

@@ -31,7 +31,7 @@ class Department extends Controller
     protected $table = 'Department';
 
     /**
-     * 部门管理
+     * 部门列表
      * @auth true
      * @menu true
      * @throws \think\Exception

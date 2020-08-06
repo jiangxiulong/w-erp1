@@ -32,7 +32,7 @@ class Goods extends Controller
         protected $table = 'Goods';
 
     /**
-     * 物品管理
+     * 物品列表
      * @auth true
      * @menu true
      * @throws \think\Exception

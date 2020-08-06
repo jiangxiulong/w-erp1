@@ -1,31 +1,35 @@
 <form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
     <div class="layui-card-body">
         <div class="layui-form-item">
-            <label class="layui-form-label label-required">请选择员工</label>
+            <label class="layui-form-label label-required">请选择租借人</label>
             <div class="layui-input-block">
-                <select class="layui-select" required name="d_id" lay-search>
-                    {foreach $department as $team}
-                    {if isset($vo.d_id) and $vo.d_id eq $team.id}
-                    <option selected value="{$team.id}">{$team.name|default=''}</option>
+                <select class="layui-select" required name="per_id" lay-search>
+                    {foreach $personnel as $per}
+                    {if isset($vo.per_id) and $vo.per_id eq $per.id}
+                    <option selected value="{$per.id}">{$per.name|default=''}</option>
                     {else}
-                    <option value="{$team.id}">{$team.name|default=''}</option>
+                    <option value="{$per.id}">{$per.name|default=''}</option>
                     {/if}
                     {/foreach}
                 </select>
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label label-required">请选择员工</label>
+            <label class="layui-form-label label-required">开始时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input date_time1" name="start_time" value='{$vo.start_time|default=""}' type="text" class="layui-input" placeholder="请选择开始时间">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">结束时间</label>
+            <div class="layui-input-inline">
+                <input class="layui-input date_time2" name="end_time" value='{$vo.end_time|default=""}' type="text" class="layui-input" placeholder="请选择结束时间">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
-                <select class="layui-select" required name="d_id" lay-search>
-                    {foreach $department as $team}
-                    {if isset($vo.d_id) and $vo.d_id eq $team.id}
-                    <option selected value="{$team.id}">{$team.name|default=''}</option>
-                    {else}
-                    <option value="{$team.id}">{$team.name|default=''}</option>
-                    {/if}
-                    {/foreach}
-                </select>
+                <textarea class="layui-textarea" name="mark">{$vo.mark|default=''|raw}</textarea>
             </div>
         </div>
     </div>
@@ -38,6 +42,16 @@
         <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
     </div>
 
-    <script>window.form.render();</script>
+    <script>
+        window.form.render();
+        laydate.render({
+            elem: '.date_time1'
+            ,type: 'datetime'
+        });
+        laydate.render({
+            elem: '.date_time2'
+            ,type: 'datetime'
+        });
+    </script>
 
 </form>

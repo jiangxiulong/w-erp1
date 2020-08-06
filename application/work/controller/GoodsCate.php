@@ -31,7 +31,7 @@ class GoodsCate extends Controller
     protected $table = 'GoodsCate';
 
     /**
-     * 物品分类管理
+     * 物品分类列表
      * @auth true
      * @menu true
      * @throws \think\Exception
