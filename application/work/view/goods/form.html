@@ -1,15 +1,15 @@
 <form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
     <div class="layui-card-body">
         <div class="layui-form-item">
-            <label class="layui-form-label label-required">物品名称</label>
+            <label class="layui-form-label label-required">工具名称</label>
             <div class="layui-input-block">
-                <input name="name" value='{$vo.name|default=""}' required placeholder="请输入物品名称" class="layui-input">
+                <input name="name" value='{$vo.name|default=""}' required placeholder="请输入工具名称" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label label-required">物品编码</label>
+            <label class="layui-form-label label-required">工具编码</label>
             <div class="layui-input-block">
-                <input name="code" value='{$vo.code|default=""}' required placeholder="请输入物品编码" class="layui-input">
+                <input name="code" value='{$vo.code|default=""}' required placeholder="请输入工具编码" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
@@ -26,6 +26,24 @@
                 </select>
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">厂家</label>
+            <div class="layui-input-block">
+                <input name="seller_name" value='{$vo.seller_name|default=""}' required placeholder="请输入厂家" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">上次实验日期</label>
+            <div class="layui-input-block">
+                <input class="layui-input date_time1" name="scsyrq" value='{$vo.scsyrq|default=""}' type="text" class="layui-input" placeholder="请选择上次实验日期">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">型号</label>
+            <div class="layui-input-block">
+                <input name="xinghao" value='{$vo.xinghao|default=""}' required placeholder="请输入型号" class="layui-input">
+            </div>
+        </div>
     </div>
 
     <div class="hr-line-dashed"></div>
@@ -36,6 +54,12 @@
         <button class="layui-btn layui-btn-danger" type='button' data-confirm="确定要取消编辑吗？" data-close>取消编辑</button>
     </div>
 
-    <script>window.form.render();</script>
+    <script>
+        window.form.render();
+        laydate.render({
+            elem: '.date_time1'
+            ,type: 'date'
+        });
+    </script>
 
 </form>

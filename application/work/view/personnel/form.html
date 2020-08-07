@@ -7,6 +7,12 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label label-required">联系方式</label>
+            <div class="layui-input-block">
+                <input name="phone" value='{$vo.phone|default=""}' required placeholder="请输入联系方式" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label label-required">请选择部门</label>
             <div class="layui-input-block">
                 <select class="layui-select" required name="d_id" lay-search>

@@ -13,7 +13,7 @@
             <th class='list-table-sort-td'>
                 <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
             </th>
-            <th class='text-left nowrap'>物品名称</th>
+            <th class='text-left nowrap'>工具名称</th>
             <th class='text-left nowrap'>租借人</th>
             <th class='text-left nowrap'>部门</th>
             <th class='text-left nowrap'>租借时间</th>
@@ -38,7 +38,12 @@
                 {$vo.start_time|format_datetime}
             </td>
             <td class='text-left nowrap'>
+                {notempty name='vo.end_time'}
                 {$vo.end_time|format_datetime}
+                {/notempty}
+                {empty name='vo.end_time'}
+                <span class="layui-badge layui-bg-red margin-left-5">未还</span>
+                {/empty}
             </td>
             <td class='text-left nowrap'>{$vo.mark|default=''}</td>
             <td class='text-left nowrap'>

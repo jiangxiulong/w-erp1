@@ -18,7 +18,7 @@ namespace app\work\controller;
 use library\Controller;
 
 /**
- * 物品分类管理
+ * 工具分类管理
  * Class GoodsCate
  * @package app\work\controller
  */
@@ -31,7 +31,7 @@ class GoodsCate extends Controller
     protected $table = 'GoodsCate';
 
     /**
-     * 物品分类列表
+     * 工具分类列表
      * @auth true
      * @menu true
      * @throws \think\Exception
@@ -42,13 +42,13 @@ class GoodsCate extends Controller
      */
     public function index()
     {
-        $this->title = '物品分类列表';
+        $this->title = '工具分类列表';
         $query = $this->_query($this->table)->like('name');
         $query->where(['is_deleted' => '0'])->order('id desc')->page();
     }
 
     /**
-     * 添加物品分类
+     * 添加工具分类
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -58,12 +58,12 @@ class GoodsCate extends Controller
      */
     public function add()
     {
-        $this->title = '添加物品分类';
+        $this->title = '添加工具分类';
         $this->_form($this->table, 'form');
     }
 
     /**
-     * 编辑物品分类
+     * 编辑工具分类
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -73,12 +73,12 @@ class GoodsCate extends Controller
      */
     public function edit()
     {
-        $this->title = '编辑物品分类';
+        $this->title = '编辑工具分类';
         $this->_form($this->table, 'form');
     }
 
     /**
-     * 删除物品分类
+     * 删除工具分类
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException

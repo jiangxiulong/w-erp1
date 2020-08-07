@@ -3,11 +3,11 @@
 {block name="button"}
 
 {if auth("add")}
-<button data-modal='{:url("add")}' data-title="添加物品" class='layui-btn layui-btn-sm layui-btn-primary'>添加物品</button>
+<button data-modal='{:url("add")}' data-title="添加工具" class='layui-btn layui-btn-sm layui-btn-primary'>添加工具</button>
 {/if}
 
 {if auth("remove")}
-<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些物品吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除物品</button>
+<button data-action='{:url("remove")}' data-rule="id#{key}" data-csrf="{:systoken('remove')}" data-confirm="确定要删除这些工具吗？" class='layui-btn layui-btn-sm layui-btn-primary'>删除工具</button>
 {/if}
 
 {if auth("import")}
@@ -15,7 +15,7 @@
     <i class="layui-icon">&#xe67c;</i>导入
 </button>
 <button type="button" class="layui-btn layui-btn-sm layui-btn-primary">
-    <a href='__ROOT__/static/theme/import_goods.xlsx' target="_blank" download="物品导入模板">下载导入模板</a>
+    <a href='__ROOT__/static/theme/import_goods.xlsx' target="_blank" download="工具导入模板">下载导入模板</a>
 </button>
 {/if}
 
@@ -34,10 +34,11 @@
             <th class='list-table-sort-td'>
                 <button type="button" data-reload class="layui-btn layui-btn-xs">刷 新</button>
             </th>
-            <th class='text-left nowrap'>物品名称</th>
-            <th class='text-left nowrap'>物品编码</th>
-            <th class='text-left nowrap'>物品分类</th>
-            <th class='text-left nowrap'>物品条形码</th>
+            <th class='text-left nowrap'>工具信息</th>
+            <th class='text-left nowrap'>工具分类</th>
+            <th class='text-left nowrap'>厂家</th>
+            <th class='text-left nowrap'>上次实验日期</th>
+            <th class='text-left nowrap'>工具条形码</th>
             <th class='text-left nowrap'>使用次数</th>
             <th class='text-left nowrap'>添加时间</th>
             <th class='text-left nowrap'></th>
@@ -52,15 +53,20 @@
             </td>
             <td class='list-table-sort-td'>
             </td>
-            <td class='text-left nowrap'>{$vo.name|default=''}</td>
-            <td class='text-left nowrap'>{$vo.code|default=''}</td>
+            <td class='text-left nowrap'>
+                工具名称：{$vo.name|default=''}<br>
+                工具编码：{$vo.code|default=''}<br>
+                型号：{$vo.xinghao|default=''}
+            </td>
             <td class='text-left nowrap'>{$vo.cate.name|default=''}</td>
+            <td class='text-left nowrap'>{$vo.seller_name|default=''}</td>
+            <td class='text-left nowrap'>{$vo.scsyrq|default=''}</td>
             <td class='text-left nowrap'>
                 <img src="{$vo.code_png}"/>
                 <a href='{$vo.code_png}' target="_blank" download="{$vo.name}">下载</a>
             </td>
             <td class='text-left nowrap'>{$vo.use_num|default=''}</td>
-            <td class='text-left nowrap'>
+            <td class='text-left'>
                 {$vo.create_at|format_datetime}
             </td>
             <td class='text-left nowrap'>

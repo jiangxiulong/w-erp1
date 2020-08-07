@@ -2,9 +2,9 @@
     <form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
         <div class="layui-card-body">
             <div class="layui-form-item">
-                <label class="layui-form-label label-required">物品编码</label>
+                <label class="layui-form-label label-required">工具编码</label>
                 <div style="width: 80%" class="layui-input-inline">
-                    <input required type="text" autocomplete="off" name="code" value='' placeholder="请输入物品编码或扫码" class="layui-input">
+                    <input required type="text" autocomplete="off" name="code" value='' placeholder="请输入工具编码或扫码" class="layui-input codeinput">
                 </div>
                 <button class="layui-btn" type='submit'>查询</button>
             </div>
@@ -12,24 +12,35 @@
     </form>
     {notempty name='vo'}
         <div class="layui-card-body">
-    <!--         物品信息-->
+    <!--         工具信息-->
             <div class="layui-form-item text-center">
                 <div class="layui-input-inline">
-                    物品名称：{$vo.name|default=""}
+                    工具名称：{$vo.name|default=""}
                 </div>
                 <div class="layui-input-inline">
-                    物品编码：{$vo.code|default=""}
+                    工具编码：{$vo.code|default=""}
                 </div>
                 <div class="layui-input-inline">
-                    物品编码：{$vo.c_name|default=""}
+                    工具编码：{$vo.c_name|default=""}
                 </div>
             </div>
             <div class="layui-form-item text-center">
                 <div class="layui-input-inline">
-                    物品使用次数：{$vo.use_num|default=""}
+                    厂家：{$vo.seller_name|default=""}
                 </div>
                 <div class="layui-input-inline">
-                    物品租借状态：
+                    上次实验日期：{$vo.scsyrq|default=""}
+                </div>
+                <div class="layui-input-inline">
+                    型号：{$vo.xinghao|default=""}
+                </div>
+            </div>
+            <div class="layui-form-item text-center">
+                <div class="layui-input-inline">
+                    工具使用次数：{$vo.use_num|default=""}
+                </div>
+                <div class="layui-input-inline">
+                    工具租借状态：
                     {eq name='vo.status' value='1'}<span class="layui-badge layui-bg-green margin-left-5">空闲</span>{/eq}
                     {eq name='vo.status' value='2'}<span class="layui-badge layui-bg-red margin-left-5">被借中</span>{/eq}
                 </div>
@@ -40,12 +51,24 @@
             {eq name='vo.status' value='1'}
             <form class="layui-form layui-card" action="{:url('BorrowRepay/lease')}" data-auto="true" method="post" autocomplete="off">
                 <div class="layui-form-item">
+                    <label class="layui-form-label label-required">请选择部门</label>
+                    <div class="layui-input-inline">
+                        <select lay-filter="department" class="layui-select" required name="" lay-search>
+                            <option value="">请选择部门</option>
+                            {foreach $vo.department as $dep}
+                            <option value="{$dep.id}">{$dep.name|default=''}</option>
+                            {/foreach}
+                        </select>
+                    </div>
+                </div>
+                <div class="layui-form-item">
                     <label class="layui-form-label label-required">请选择租借人</label>
                     <div class="layui-input-inline">
-                        <select class="layui-select" required name="per_id" lay-search>
-                            {foreach $vo.personnel as $per}
+                        <select class="layui-select personnel" required name="per_id" lay-search>
+                            <option value="">请选择租借人</option>
+                            <!--{foreach $vo.personnel as $per}
                             <option value="{$per.id}">{$per.name|default=''}</option>
-                            {/foreach}
+                            {/foreach}-->
                         </select>
                     </div>
                 </div>
@@ -58,7 +81,7 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">备注</label>
                     <div class="layui-input-block">
-                        <textarea class="layui-textarea" name="mark"></textarea>
+                        <textarea class="layui-textarea" name="mark">{:session('lease_mark')}</textarea>
                     </div>
                 </div>
                 <div class="layui-form-item text-center">
@@ -98,7 +121,7 @@
 </div>
 <script>
     window.form.render();
-    setTimeout($('input').focus(),100);
+    setTimeout("$('.codeinput').focus()",100);
     laydate.render({
         elem: '.date_time1'
         ,type: 'datetime'
@@ -108,5 +131,21 @@
         elem: '.date_time2'
         ,type: 'datetime'
         ,value: new Date()
+    });
+    $(document).ready(function() {
+        layui.use(['form', 'layer'], function(){
+            var form = layui.form;
+            var layer = layui.layer;
+            form.on('select(department)', function (data) {
+                $.post("{:url('personnel/get_dep_per')}",{d_id:data.value},function(result){
+                    var html = '';
+                    $.each(result.personnel,function(index,value){
+                        html += '<option value="'+value.id+'">'+value.name+'</option>';
+                    });
+                    $('.personnel').html(html);
+                    window.form.render();
+                });
+            });
+        })
     });
 </script>

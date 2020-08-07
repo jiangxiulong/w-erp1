@@ -76,7 +76,7 @@ class BorrowRepay extends Controller
     }
 
     /**
-     * 物品租借详情
+     * 工具租借详情
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -99,10 +99,12 @@ class BorrowRepay extends Controller
                     $goods_info['borrow_repay'] = [];
                     $personnel = Db::name('Personnel')->where('is_deleted', 0)->select();
                     $goods_info['personnel'] = $personnel;
+                    $department = Db::name('Department')->where('is_deleted', 0)->select();
+                    $goods_info['department'] = $department;
                 }
                 $this->fetch('detail', ['vo' => $goods_info]);
             }else{
-                $this->error('暂无此编码物品信息，请检查后重试！');
+                $this->error('暂无此编码工具信息，请检查后重试！');
             }
         }else{
             $this->fetch();
@@ -121,6 +123,9 @@ class BorrowRepay extends Controller
     public function lease()
     {
         $data = $this->request->post();
+        if (!empty($data['mark'])) {
+            session('lease_mark', $data['mark']);
+        }
         $res = Db::table('borrow_repay')->insert($data);
         $res1 = Db::table('goods')->where('id', $data['g_id'])->update(['status' => 2, 'use_num' => Db::raw('use_num+1')]);
         $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/index'));
@@ -202,7 +207,7 @@ class BorrowRepay extends Controller
         $list = $query->where(['is_deleted' => '0'])->order('id desc')->page(false,false);
 
         $Csv = new Csv();
-        $header = ['物品名称','物品编码','租借人','部门','租借时间','归还时间','备注'];
+        $header = ['工具名称','工具编码','租借人','部门','租借时间','归还时间','备注'];
         $rules = ['g_name','g_code','personnel.name','personnel.department.name','start_time','end_time','mark'];
         $Csv->header('租借列表.csv',$header);
         $Csv->body($list['list'], $rules);

@@ -19,7 +19,7 @@ use library\Controller;
 use think\Db;
 
 /**
- * 物品管理
+ * 工具管理
  * Class Goods
  * @package app\work\controller
  */
@@ -32,7 +32,7 @@ class Goods extends Controller
         protected $table = 'Goods';
 
     /**
-     * 物品列表
+     * 工具列表
      * @auth true
      * @menu true
      * @throws \think\Exception
@@ -43,7 +43,7 @@ class Goods extends Controller
      */
     public function index()
     {
-        $this->title = '物品列表';
+        $this->title = '工具列表';
         $query = $this->_query($this->table)->like('name,code')->equal('c_id');
         $query->where(['is_deleted' => '0'])->order('id desc')->page();
     }
@@ -98,7 +98,7 @@ class Goods extends Controller
     }
 
     /**
-     * 添加物品
+     * 添加工具
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -108,12 +108,12 @@ class Goods extends Controller
      */
     public function add()
     {
-        $this->title = '添加物品';
+        $this->title = '添加工具';
         $this->_form($this->table, 'form');
     }
 
     /**
-     * 编辑物品
+     * 编辑工具
      * @auth true
      * @throws \think\Exception
      * @throws \think\db\exception\DataNotFoundException
@@ -123,7 +123,7 @@ class Goods extends Controller
      */
     public function edit()
     {
-        $this->title = '编辑物品';
+        $this->title = '编辑工具';
         $this->_form($this->table, 'form');
     }
 
@@ -144,7 +144,7 @@ class Goods extends Controller
     }
 
     /**
-     * 删除物品
+     * 删除工具
      * @auth true
      * @throws \think\Exception
      * @throws \think\exception\PDOException
@@ -155,7 +155,7 @@ class Goods extends Controller
     }
 
     /**
-     * 导入物品
+     * 导入工具
      * @auth true
      * @menu true
      * @throws \think\Exception
@@ -186,6 +186,9 @@ class Goods extends Controller
                     'name' => $value[1],
                     'code' => $value[2],
                     'c_id' => $value[3],
+                    'seller_name' => $value[4],
+                    'xinghao' => $value[5],
+                    'scsyrq' => $value[6],
                 ];
             }
             if (isset($new_data) && !empty($new_data)) {

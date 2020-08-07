@@ -121,4 +121,14 @@ class Personnel extends Controller
         $this->_delete($this->table);
     }
 
+    /**
+     * ajax获取部门下的人员
+     */
+    public function get_dep_per()
+    {
+        $d_id = $this->request->post('d_id');
+        $list = Db::table('personnel')->where('d_id', $d_id)->where('is_deleted', 0)->order('id desc')->select();
+        return json(['personnel' => $list]);
+    }
+
 }
