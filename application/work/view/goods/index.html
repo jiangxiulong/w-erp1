@@ -56,7 +56,10 @@
             <td class='text-left nowrap'>
                 工具名称：{$vo.name|default=''}<br>
                 工具编码：{$vo.code|default=''}<br>
-                型号：{$vo.xinghao|default=''}
+                型号：{$vo.xinghao|default=''}<br>
+                工具状态：
+                {eq name='vo.status' value='1'}<span class="layui-badge layui-bg-green margin-left-5">空闲</span>{/eq}
+                {eq name='vo.status' value='2'}<span class="layui-badge layui-bg-red margin-left-5">被借中</span>{/eq}
             </td>
             <td class='text-left nowrap'>{$vo.cate.name|default=''}</td>
             <td class='text-left nowrap'>{$vo.seller_name|default=''}</td>

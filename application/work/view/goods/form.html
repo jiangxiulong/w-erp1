@@ -27,6 +27,12 @@
             </div>
         </div>
         <div class="layui-form-item">
+            <label class="layui-form-label label-required">使用次数</label>
+            <div class="layui-input-block">
+                <input name="use_num" value='{$vo.use_num|default=""}' required placeholder="请输入使用次数" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
             <label class="layui-form-label label-required">厂家</label>
             <div class="layui-input-block">
                 <input name="seller_name" value='{$vo.seller_name|default=""}' required placeholder="请输入厂家" class="layui-input">

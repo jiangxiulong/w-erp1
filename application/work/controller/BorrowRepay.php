@@ -128,7 +128,7 @@ class BorrowRepay extends Controller
         }
         $res = Db::table('borrow_repay')->insert($data);
         $res1 = Db::table('goods')->where('id', $data['g_id'])->update(['status' => 2, 'use_num' => Db::raw('use_num+1')]);
-        $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/index'));
+        $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/detail'));
     }
 
     /**
@@ -145,7 +145,7 @@ class BorrowRepay extends Controller
         $data = $this->request->post();
         $res = Db::table('borrow_repay')->where('id', $data['id'])->update($data);
         $res1 = Db::table('goods')->where('id', $data['g_id'])->update(['status' => 1]);
-        $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/index'));
+        $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/detail'));
     }
 
     /**

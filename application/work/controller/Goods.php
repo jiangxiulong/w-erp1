@@ -189,6 +189,7 @@ class Goods extends Controller
                     'seller_name' => $value[4],
                     'xinghao' => $value[5],
                     'scsyrq' => $value[6],
+                    'use_num' => $value[7],
                 ];
             }
             if (isset($new_data) && !empty($new_data)) {
