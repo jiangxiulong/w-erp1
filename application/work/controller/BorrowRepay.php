@@ -126,6 +126,13 @@ class BorrowRepay extends Controller
         if (!empty($data['mark'])) {
             session('lease_mark', $data['mark']);
         }
+        if (!empty($data['d_id'])) {
+            session('lease_d_id', $data['d_id']);
+            unset($data['d_id']);
+        }
+        if (!empty($data['per_id'])) {
+            session('lease_per_id', $data['per_id']);
+        }
         $res = Db::table('borrow_repay')->insert($data);
         $res1 = Db::table('goods')->where('id', $data['g_id'])->update(['status' => 2, 'use_num' => Db::raw('use_num+1')]);
         $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/detail'));

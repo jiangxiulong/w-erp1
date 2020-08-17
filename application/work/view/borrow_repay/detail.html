@@ -21,7 +21,7 @@
                     工具编码：{$vo.code|default=""}
                 </div>
                 <div class="layui-input-inline">
-                    工具编码：{$vo.c_name|default=""}
+                    工具分类：{$vo.c_name|default=""}
                 </div>
             </div>
             <div class="layui-form-item text-center">
@@ -40,9 +40,15 @@
                     工具使用次数：{$vo.use_num|default=""}
                 </div>
                 <div class="layui-input-inline">
-                    工具租借状态：
+                    租借状态：
                     {eq name='vo.status' value='1'}<span class="layui-badge layui-bg-green margin-left-5">空闲</span>{/eq}
                     {eq name='vo.status' value='2'}<span class="layui-badge layui-bg-red margin-left-5">被借中</span>{/eq}
+                </div>
+                <div class="layui-input-inline">
+                    工具状态：
+                    {eq name='vo.status_' value='1'}<span class="layui-badge layui-bg-green margin-left-5">良好</span>{/eq}
+                    {eq name='vo.status_' value='2'}<span class="layui-badge layui-bg-red margin-left-5">损坏</span>{/eq}
+                    {eq name='vo.status_' value='3'}<span class="layui-badge layui-bg-red margin-left-5">缺少配件</span>{/eq}
                 </div>
             </div>
             <div class="hr-line-dashed"></div>
@@ -53,10 +59,14 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label label-required">请选择部门</label>
                     <div class="layui-input-inline">
-                        <select lay-filter="department" class="layui-select" required name="" lay-search>
+                        <select lay-filter="department" class="layui-select" required name="d_id" lay-search>
                             <option value="">请选择部门</option>
                             {foreach $vo.department as $dep}
+                            {if session('lease_d_id') eq $dep.id}
+                            <option selected value="{$dep.id}">{$dep.name|default=''}</option>
+                            {else}
                             <option value="{$dep.id}">{$dep.name|default=''}</option>
+                            {/if}
                             {/foreach}
                         </select>
                     </div>
@@ -132,15 +142,25 @@
         ,type: 'datetime'
         ,value: new Date()
     });
+    var lease_d_id = "{:session('lease_d_id')}";
+    if (lease_d_id) {
+        var S0 = 'dd[lay-value='+ lease_d_id+']';
+        $("select[name='d_id']").siblings("div.layui-form-select").find('dl').find(S0).click();
+    }
     $(document).ready(function() {
         layui.use(['form', 'layer'], function(){
             var form = layui.form;
             var layer = layui.layer;
             form.on('select(department)', function (data) {
+                var per_id = "{:session('lease_per_id')}";
                 $.post("{:url('personnel/get_dep_per')}",{d_id:data.value},function(result){
                     var html = '';
                     $.each(result.personnel,function(index,value){
-                        html += '<option value="'+value.id+'">'+value.name+'</option>';
+                        if (per_id && per_id == value.id) {
+                            html += '<option selected value="'+value.id+'">'+value.name+'</option>';
+                        }else{
+                            html += '<option value="'+value.id+'">'+value.name+'</option>';
+                        }
                     });
                     $('.personnel').html(html);
                     window.form.render();

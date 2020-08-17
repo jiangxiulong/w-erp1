@@ -50,6 +50,20 @@
                 <input name="xinghao" value='{$vo.xinghao|default=""}' required placeholder="请输入型号" class="layui-input">
             </div>
         </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label label-required">工具状态</label>
+            <div class="layui-input-block">
+                <select class="layui-select" required name="status_" lay-search>
+                    {foreach [1=>'良好',2=>'损坏',3=>'缺少配件'] as $key => $val}
+                    {if isset($vo.status_) and $vo.status_ eq $key}
+                    <option selected value="{$key}">{$val|default=''}</option>
+                    {else}
+                    <option value="{$key}">{$val|default=''}</option>
+                    {/if}
+                    {/foreach}
+                </select>
+            </div>
+        </div>
     </div>
 
     <div class="hr-line-dashed"></div>
