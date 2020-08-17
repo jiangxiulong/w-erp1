@@ -51,17 +51,9 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label label-required">工具状态</label>
+            <label class="layui-form-label">工具状态</label>
             <div class="layui-input-block">
-                <select class="layui-select" required name="status_" lay-search>
-                    {foreach [1=>'良好',2=>'损坏',3=>'缺少配件'] as $key => $val}
-                    {if isset($vo.status_) and $vo.status_ eq $key}
-                    <option selected value="{$key}">{$val|default=''}</option>
-                    {else}
-                    <option value="{$key}">{$val|default=''}</option>
-                    {/if}
-                    {/foreach}
-                </select>
+                <input name="status_" value='{$vo.status_|default=""}' placeholder="请输入工具状态" class="layui-input">
             </div>
         </div>
     </div>
