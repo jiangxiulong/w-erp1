@@ -29,7 +29,7 @@ class Goods extends Controller
      * 绑定数据表
      * @var string
      */
-        protected $table = 'Goods';
+    protected $table = 'Goods';
 
     /**
      * 工具列表

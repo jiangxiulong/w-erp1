@@ -30,7 +30,7 @@ class BorrowRepay extends Controller
      * 绑定数据表
      * @var string
      */
-        protected $table = 'BorrowRepay';
+    protected $table = 'BorrowRepay';
 
     /**
      * 租借列表
@@ -88,7 +88,7 @@ class BorrowRepay extends Controller
     {
         if ($this->request->isPost()) {
             $code = $this->request->post('code');
-            $goods_info = Db::name('Goods')->where('code', trim($code))->find();
+            $goods_info = Db::name('Goods')->where('code', trim($code))->where('is_deleted', 0)->find();
             if (!empty($goods_info)) {
                 $goods_info['c_name'] = Db::name('GoodsCate')->where('id', $goods_info['c_id'])->value('name');
                 if ($goods_info['status'] == 2) {
@@ -135,7 +135,8 @@ class BorrowRepay extends Controller
         }
         $res = Db::table('borrow_repay')->insert($data);
         $res1 = Db::table('goods')->where('id', $data['g_id'])->update(['status' => 2, 'use_num' => Db::raw('use_num+1')]);
-        $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/detail'));
+        $url = url('@admin') . '#' . url('work/borrow_repay/detail') . '?spm=' . $this->request->get('spm',1);
+        $this->success('操作成功', $url);
     }
 
     /**
@@ -150,9 +151,12 @@ class BorrowRepay extends Controller
     public function lease_back()
     {
         $data = $this->request->post();
+        $status_ = $data['status_'];
+        unset($data['status_']);
         $res = Db::table('borrow_repay')->where('id', $data['id'])->update($data);
-        $res1 = Db::table('goods')->where('id', $data['g_id'])->update(['status' => 1]);
-        $this->success('操作成功', url('@admin') . '#' . url('@work/borrow_repay/detail'));
+        $res1 = Db::table('goods')->where('id', $data['g_id'])->update(['status' => 1, 'status_' => $status_]);
+        $url = url('@admin') . '#' . url('work/borrow_repay/detail') . '?spm=' . $this->request->get('spm');
+        $this->success('操作成功', $url);
     }
 
     /**

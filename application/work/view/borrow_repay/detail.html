@@ -2,131 +2,134 @@
     <form class="layui-form layui-card" action="{:request()->url()}" data-auto="true" method="post" autocomplete="off">
         <div class="layui-card-body">
             <div class="layui-form-item">
-                <label class="layui-form-label label-required">工具编码</label>
+                <label class="layui-form-label">工具编码</label>
                 <div style="width: 80%" class="layui-input-inline">
-                    <input required type="text" autocomplete="off" name="code" value='' placeholder="请输入工具编码或扫码" class="layui-input codeinput">
+                    <input type="text" autocomplete="off" name="code" value='' placeholder="请输入工具编码或扫码" class="layui-input codeinput">
                 </div>
                 <button class="layui-btn" type='submit'>查询</button>
             </div>
         </div>
     </form>
     {notempty name='vo'}
-        <div class="layui-card-body">
-    <!--         工具信息-->
-            <div class="layui-form-item text-center">
-                <div class="layui-input-inline">
-                    工具名称：{$vo.name|default=""}
-                </div>
-                <div class="layui-input-inline">
-                    工具编码：{$vo.code|default=""}
-                </div>
-                <div class="layui-input-inline">
-                    工具分类：{$vo.c_name|default=""}
-                </div>
+    <div class="layui-card-body">
+        <!--         工具信息-->
+        <div class="layui-form-item text-center">
+            <div class="layui-input-inline">
+                工具名称：{$vo.name|default=""}
             </div>
-            <div class="layui-form-item text-center">
-                <div class="layui-input-inline">
-                    厂家：{$vo.seller_name|default=""}
-                </div>
-                <div class="layui-input-inline">
-                    上次实验日期：{$vo.scsyrq|default=""}
-                </div>
-                <div class="layui-input-inline">
-                    型号：{$vo.xinghao|default=""}
-                </div>
+            <div class="layui-input-inline">
+                工具编码：{$vo.code|default=""}
             </div>
-            <div class="layui-form-item text-center">
-                <div class="layui-input-inline">
-                    工具使用次数：{$vo.use_num|default=""}
-                </div>
-                <div class="layui-input-inline">
-                    租借状态：
-                    {eq name='vo.status' value='1'}<span class="layui-badge layui-bg-green margin-left-5">空闲</span>{/eq}
-                    {eq name='vo.status' value='2'}<span class="layui-badge layui-bg-red margin-left-5">被借中</span>{/eq}
-                </div>
-                <!--<div class="layui-input-inline">
-                    工具状态：
-                    {eq name='vo.status_' value='1'}<span class="layui-badge layui-bg-green margin-left-5">良好</span>{/eq}
-                    {eq name='vo.status_' value='2'}<span class="layui-badge layui-bg-red margin-left-5">损坏</span>{/eq}
-                    {eq name='vo.status_' value='3'}<span class="layui-badge layui-bg-red margin-left-5">缺少配件</span>{/eq}
-                </div>-->
+            <div class="layui-input-inline">
+                工具分类：{$vo.c_name|default=""}
             </div>
-            <div class="hr-line-dashed"></div>
-    <!--        租借信息-->
-    <!--        租借-->
-            {eq name='vo.status' value='1'}
-            <form class="layui-form layui-card" action="{:url('BorrowRepay/lease')}" data-auto="true" method="post" autocomplete="off">
-                <div class="layui-form-item">
-                    <label class="layui-form-label label-required">请选择部门</label>
-                    <div class="layui-input-inline">
-                        <select lay-filter="department" class="layui-select" required name="d_id" lay-search>
-                            <option value="">请选择部门</option>
-                            {foreach $vo.department as $dep}
-                            {if session('lease_d_id') eq $dep.id}
-                            <option selected value="{$dep.id}">{$dep.name|default=''}</option>
-                            {else}
-                            <option value="{$dep.id}">{$dep.name|default=''}</option>
-                            {/if}
-                            {/foreach}
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label label-required">请选择租借人</label>
-                    <div class="layui-input-inline">
-                        <select class="layui-select personnel" required name="per_id" lay-search>
-                            <option value="">请选择租借人</option>
-                            <!--{foreach $vo.personnel as $per}
-                            <option value="{$per.id}">{$per.name|default=''}</option>
-                            {/foreach}-->
-                        </select>
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label label-required">开始时间</label>
-                    <div class="layui-input-inline">
-                        <input class="layui-input date_time1" name="start_time" value='{$vo.start_time|default=""}' type="text" class="layui-input" placeholder="请选择开始时间">
-                    </div>
-                </div>
-                <div class="layui-form-item">
-                    <label class="layui-form-label">备注</label>
-                    <div class="layui-input-block">
-                        <textarea class="layui-textarea" name="mark">{:session('lease_mark')}</textarea>
-                    </div>
-                </div>
-                <div class="layui-form-item text-center">
-                    <input type="hidden" name="g_id" value="{$vo.id}">
-                    <input type="hidden" name="g_name" value="{$vo.name}">
-                    <input type="hidden" name="g_code" value="{$vo.code}">
-                    <button class="layui-btn" type='submit'>租借</button>
-                </div>
-            </form>
-            {/eq}
-    <!--        归还-->
-            {eq name='vo.status' value='2'}
-                <form class="layui-form layui-card" action="{:url('BorrowRepay/lease_back')}" data-auto="true" method="post" autocomplete="off">
-                    <div class="layui-form-item text-center">
-                        <div class="layui-input-inline">
-                            租借人：{$vo.borrow_repay.per_name|default=""}
-                        </div>
-                        <div class="layui-input-inline">
-                            开始时间：{$vo.borrow_repay.start_time|default=""}
-                        </div>
-                    </div>
-                    <div class="layui-form-item">
-                        <label class="layui-form-label label-required">结束时间</label>
-                        <div class="layui-input-inline">
-                            <input class="layui-input date_time2" name="end_time" value='{$vo.end_time|default=""}' type="text" class="layui-input" placeholder="请选择结束时间">
-                        </div>
-                    </div>
-                    <div class="layui-form-item text-center">
-                        <input type="hidden" name="id" value="{$vo.borrow_repay.id}">
-                        <input type="hidden" name="g_id" value="{$vo.id}">
-                        <button class="layui-btn" type='submit'>归还</button>
-                    </div>
-                </form>
-            {/eq}
         </div>
+        <div class="layui-form-item text-center">
+            <div class="layui-input-inline">
+                厂家：{$vo.seller_name|default=""}
+            </div>
+            <div class="layui-input-inline">
+                上次实验日期：{$vo.scsyrq|default=""}
+            </div>
+            <div class="layui-input-inline">
+                型号：{$vo.xinghao|default=""}
+            </div>
+        </div>
+        <div class="layui-form-item text-center">
+            <div class="layui-input-inline">
+                工具使用次数：{$vo.use_num|default=""}
+            </div>
+            <div class="layui-input-inline">
+                租借状态：
+                {eq name='vo.status' value='1'}<span class="layui-badge layui-bg-green margin-left-5">空闲</span>{/eq}
+                {eq name='vo.status' value='2'}<span class="layui-badge layui-bg-red margin-left-5">被借中</span>{/eq}
+            </div>
+            <div class="layui-input-inline">
+                工具状态：{$vo.status_}
+            </div>
+        </div>
+        <div class="hr-line-dashed"></div>
+        <!--        租借信息-->
+        <!--        租借-->
+        {eq name='vo.status' value='1'}
+        <form class="layui-form layui-card" action="{:url('BorrowRepay/lease')}" data-auto="true" method="post" autocomplete="off">
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required">请选择部门</label>
+                <div class="layui-input-inline">
+                    <select lay-filter="department" class="layui-select" required name="d_id" lay-search>
+                        <option value="">请选择部门</option>
+                        {foreach $vo.department as $dep}
+                        {if session('lease_d_id') eq $dep.id}
+                        <option selected value="{$dep.id}">{$dep.name|default=''}</option>
+                        {else}
+                        <option value="{$dep.id}">{$dep.name|default=''}</option>
+                        {/if}
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required">请选择租借人</label>
+                <div class="layui-input-inline">
+                    <select class="layui-select personnel" required name="per_id" lay-search>
+                        <option value="">请选择租借人</option>
+                        <!--{foreach $vo.personnel as $per}
+                        <option value="{$per.id}">{$per.name|default=''}</option>
+                        {/foreach}-->
+                    </select>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required">开始时间</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input date_time1" name="start_time" value='{$vo.start_time|default=""}' type="text" class="layui-input" placeholder="请选择开始时间">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">备注</label>
+                <div class="layui-input-block">
+                    <textarea class="layui-textarea" name="mark">{:session('lease_mark')}</textarea>
+                </div>
+            </div>
+            <div class="layui-form-item text-center">
+                <input type="hidden" name="g_id" value="{$vo.id}">
+                <input type="hidden" name="g_name" value="{$vo.name}">
+                <input type="hidden" name="g_code" value="{$vo.code}">
+                <button class="layui-btn" type='submit'>租借</button>
+            </div>
+        </form>
+        {/eq}
+        <!--        归还-->
+        {eq name='vo.status' value='2'}
+        <form class="layui-form layui-card" action="{:url('BorrowRepay/lease_back')}" data-auto="true" method="post" autocomplete="off">
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required">工具状态</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input" name="status_" value='{$vo.status_|default=""}' type="text" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item text-center">
+                <div class="layui-input-inline">
+                    租借人：{$vo.borrow_repay.per_name|default=""}
+                </div>
+                <div class="layui-input-inline">
+                    开始时间：{$vo.borrow_repay.start_time|default=""}
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label label-required">结束时间</label>
+                <div class="layui-input-inline">
+                    <input class="layui-input date_time2" name="end_time" value='{$vo.end_time|default=""}' type="text" class="layui-input" placeholder="请选择结束时间">
+                </div>
+            </div>
+            <div class="layui-form-item text-center">
+                <input type="hidden" name="id" value="{$vo.borrow_repay.id}">
+                <input type="hidden" name="g_id" value="{$vo.id}">
+                <button class="layui-btn" type='submit'>归还</button>
+            </div>
+        </form>
+        {/eq}
+    </div>
     {/notempty}
 </div>
 <script>
