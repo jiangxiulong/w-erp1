@@ -190,6 +190,7 @@ class Goods extends Controller
                     'xinghao' => $value[5],
                     'scsyrq' => $value[6],
                     'use_num' => $value[7],
+                    'status_' => $value[8],
                 ];
             }
             if (isset($new_data) && !empty($new_data)) {
